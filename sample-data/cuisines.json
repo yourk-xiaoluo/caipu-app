@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "川菜",
+    "description": "四川菜系，以麻辣著称，善用辣椒、花椒等调味，口味浓重，变化多样。",
+    "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400",
+    "icon": "🌶️"
+  },
+  {
+    "id": 2,
+    "name": "粤菜",
+    "description": "广东菜系，注重食材原味，烹饪方法多样，讲究鲜、嫩、滑、爽。",
+    "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400",
+    "icon": "🦐"
+  },
+  {
+    "id": 3,
+    "name": "鲁菜",
+    "description": "山东菜系，历史悠久，以咸鲜为主，注重火候，擅长爆、炒、烧、塌。",
+    "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",
+    "icon": "🍖"
+  },
+  {
+    "id": 4,
+    "name": "湘菜",
+    "description": "湖南菜系，辣味丰富，善用熏腊原料，注重香鲜、酸辣、软嫩。",
+    "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",
+    "icon": "🔥"
+  },
+  {
+    "id": 5,
+    "name": "江浙菜",
+    "description": "江浙菜系，口味清淡，注重本味，擅长炖、焖、蒸、烧，讲究刀工和造型。",
+    "imageUrl": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400",
+    "icon": "🐟"
+  }
+]

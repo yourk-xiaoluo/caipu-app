@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>离线 - 家常菜谱</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .offline-container {
+            max-width: 400px;
+        }
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .retry-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .retry-btn:hover, .retry-btn:active {
+            background: #fff;
+            color: #e74c3c;
+        }
+        .tips {
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">🍳</div>
+        <h1>当前无法连接网络</h1>
+        <p>请检查您的网络连接，然后点击下方按钮重试。</p>
+        <a href="/" class="retry-btn" onclick="location.reload(); return false;">重新加载</a>
+        <p class="tips">提示：已缓存的内容可在离线时浏览</p>
+    </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            // 优先尝试 published 版本，回退到 dev 版本
+            const urls = ['/service-worker.published.js', '/service-worker.js'];
+            async function regSW(url) {
+                try { await navigator.serviceWorker.register(url); return true; }
+                catch { return false; }
+            }
+            (async () => { for (const u of urls) { if (await regSW(u)) break; } })();
+        }
+
+        window.addEventListener('online', () => location.reload());
+    </script>
+</body>
+</html>

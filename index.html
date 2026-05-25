@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <!-- GitHub Pages SPA Redirect Handler -->
+    <script>
+        (function(l) {
+            if (l.search[1] === '/') {
+                var decoded = l.search.slice(1).split('&').map(function(s) {
+                    return s.replace(/~and~/g, '&')
+                }).join('?');
+                window.history.replaceState(null, null,
+                    l.pathname.slice(0, -1) + decoded + l.hash
+                );
+            }
+        }(window.location))
+    </script>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#e74c3c" />
+    <meta name="description" content="精选五大菜系，150+道家常菜做法" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="菜谱" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-TileColor" content="#e74c3c" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png" />
+    <link rel="mask-icon" href="icon-512.png" color="#e74c3c" />
+    
+    <title>家常菜谱 - 精选五大菜系，150+道家常菜做法</title>
+    <base href="/" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="_framework/dotnet.5dyxzqh2sy.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-OWeubJuTbtMF/oh4w2OPfeo/I1TnjUHm5NWU2LYQJN4=" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link href="OrderingApp.Web.styles.css" rel="stylesheet" />
+    <script type="importmap">{
+  "imports": {
+    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.zxhwjtv6sc.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.5dyxzqh2sy.js",
+    "./_framework/dotnet.native.js": "./_framework/dotnet.native.rjbmzc4jpg.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/blazor.webassembly.js": "sha256-1xlHuu1iNOJiMMz2BCq95uekwHf6pdpTcgVNKVBboPs=",
+    "./_framework/blazor.webassembly.zxhwjtv6sc.js": "sha256-1xlHuu1iNOJiMMz2BCq95uekwHf6pdpTcgVNKVBboPs=",
+    "./_framework/dotnet.5dyxzqh2sy.js": "sha256-OWeubJuTbtMF/oh4w2OPfeo/I1TnjUHm5NWU2LYQJN4=",
+    "./_framework/dotnet.js": "sha256-OWeubJuTbtMF/oh4w2OPfeo/I1TnjUHm5NWU2LYQJN4=",
+    "./_framework/dotnet.native.js": "sha256-95bE510j3EADMNW2OKa/DMBhu8N632dl5HGeBfXNEf4=",
+    "./_framework/dotnet.native.rjbmzc4jpg.js": "sha256-95bE510j3EADMNW2OKa/DMBhu8N632dl5HGeBfXNEf4=",
+    "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
+    "./_framework/dotnet.runtime.r2kbxkuujc.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU="
+  }
+}</script>
+
+    <!-- PWA Install Prompt Handler -->
+    <script>
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.body.classList.add('pwa-installable');
+            // Dispatch custom event for Blazor to handle
+            window.dispatchEvent(new CustomEvent('pwaInstallable', { detail: { canInstall: true } }));
+        });
+        
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            document.body.classList.remove('pwa-installable');
+            window.dispatchEvent(new CustomEvent('pwaInstalled', { detail: { installed: true } }));
+        });
+        
+        // Expose install function globally
+        window.installPWA = async function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted PWA install');
+                }
+                deferredPrompt = null;
+                return true;
+            }
+            return false;
+        };
+        
+        window.canInstallPWA = function() {
+            return !!deferredPrompt;
+        };
+        
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // 优先尝试 published 版本，回退到 dev 版本
+                const swUrls = ['/service-worker.published.js', '/service-worker.js'];
+                
+                async function registerSW(url) {
+                    try {
+                        const reg = await navigator.serviceWorker.register(url);
+                        console.log('ServiceWorker registered:', url, reg.scope);
+                        reg.addEventListener('updatefound', () => {
+                            const newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'activated') {
+                                    window.dispatchEvent(new CustomEvent('swUpdated'));
+                                }
+                            });
+                        });
+                        return true;
+                    } catch (err) {
+                        console.warn('ServiceWorker failed for', url, err);
+                        return false;
+                    }
+                }
+                
+                (async () => {
+                    for (const url of swUrls) {
+                        if (await registerSW(url)) break;
+                    }
+                })();
+            });
+            
+            // Handle online/offline events
+            window.addEventListener('online', () => document.body.classList.remove('offline'));
+            window.addEventListener('offline', () => document.body.classList.add('offline'));
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        发生了一个未处理的错误。
+        <a href="." class="reload">重新加载</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.zxhwjtv6sc.js"></script>
+</body>
+
+</html>
