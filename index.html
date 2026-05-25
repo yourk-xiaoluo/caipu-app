@@ -38,7 +38,7 @@
     <link rel="mask-icon" href="icon-512.png" color="#e74c3c" />
     
     <title>家常菜谱 - 精选五大菜系，150+道家常菜做法</title>
-    <base href="/" />
+    <base href="/caipu-app/" />
     <link rel="manifest" href="manifest.json" />
     <link href="_framework/dotnet.5dyxzqh2sy.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-OWeubJuTbtMF/oh4w2OPfeo/I1TnjUHm5NWU2LYQJN4=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -103,7 +103,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 // 优先尝试 published 版本，回退到 dev 版本
-                const swUrls = ['/service-worker.published.js', '/service-worker.js'];
+                const swUrls = ['service-worker.published.js', 'service-worker.js'];
                 
                 async function registerSW(url) {
                     try {
